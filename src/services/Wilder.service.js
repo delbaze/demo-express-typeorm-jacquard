@@ -1,3 +1,4 @@
+import WilderEntity from "../entity/Wilder.entity";
 import datasource from "../lib/datasource";
 
 export default class WilderService {
@@ -34,5 +35,19 @@ export default class WilderService {
       success: true,
       message: `Le wilder ayant l'id ${id} a été supprimé`,
     };
+  }
+
+  async update({ id, ...other }) {
+    let wilder = await this.findById(id);
+    //premiere solution
+    Object.keys(other).forEach((value) => {
+      if (other[value]) {
+        wilder[value] = other[value];
+      }
+    });
+    return await this.db.save(wilder);
+    //deuxième solution
+    // let res = await this.db.update(wilder.id, other);
+    // return res
   }
 }

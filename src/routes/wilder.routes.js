@@ -59,7 +59,27 @@ router.delete("/delete/:id", async (req, res) => {
     });
   }
 });
-router.patch("/update/:id", (req, res) => {});
+router.patch("/update/:id", async (req, res) => {
+  const { id } = req.params;
+  const { first_name, last_name, email } = req.body;
+
+  console.log("ID", id);
+  console.log("infos", first_name, last_name, email);
+  try {
+    const wilder = await new WilderService().update({
+      id,
+      first_name,
+      last_name,
+      email,
+    });
+    res.json(wilder);
+  } catch (err) {
+    res.status(404).json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
 // router
 //   .route("/create")
 //   .post((req, res) => {})
