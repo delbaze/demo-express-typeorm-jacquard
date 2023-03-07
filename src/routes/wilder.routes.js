@@ -23,7 +23,7 @@ router.post("/create", async (req, res) => {
 
 router.get("/list", (req, res) => {});
 router.delete("/delete/:id", (req, res) => {});
-router.patch("update/:id", (req, res) => {});
+router.patch("/update/:id", (req, res) => {});
 // router
 //   .route("/create")
 //   .post((req, res) => {})
