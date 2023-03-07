@@ -10,4 +10,29 @@ export default class WilderService {
     const wilder = this.db.create({ first_name, last_name, email });
     return await this.db.save(wilder);
   }
+
+  async list() {
+    return await this.db.find();
+  }
+
+  async findById(id) {
+    // const wilder = await this.db.findOne({ where: { id } });
+    const wilder = await this.db.findOneBy({ id });
+    if (!wilder) {
+      throw new Error("Ce wilder n'existe pas");
+    }
+    return wilder;
+  }
+
+  async deleteById(id) {
+    const result = await this.db.delete({ id });
+    if (result.affected === 0) {
+      throw new Error("Problème, ce wilder n'existe peut être pas?");
+    }
+
+    return {
+      success: true,
+      message: `Le wilder ayant l'id ${id} a été supprimé`,
+    };
+  }
 }
