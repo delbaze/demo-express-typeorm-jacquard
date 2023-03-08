@@ -11,4 +11,5 @@ export default new EntitySchema({
       type: "int",
     },
   },
+
 });
