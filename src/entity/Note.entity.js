@@ -11,4 +11,20 @@ export default new EntitySchema({
       type: "int",
     },
   },
+  relations: {
+    language: {
+      target: "Language",
+      type: "many-to-one",
+      eager: true,
+      onDelete: "CASCADE",
+    },
+    wilder: {
+      target: "Wilder",
+      type: "many-to-one",
+      eager: true,
+      joinColumn: true,
+      inverseSide: "notes", //ce côté inverse se retrouve dans l'entité wilder (relations.notes)
+      onDelete: "CASCADE",
+    },
+  },
 });

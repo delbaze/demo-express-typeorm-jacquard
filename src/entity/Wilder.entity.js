@@ -15,17 +15,10 @@ export default new EntitySchema({
     age: { type: "int" },
   },
   relations: {
-    score: {
+    note: {
       type: "one-to-many",
-      target: "Score",
+      target: "Note",
       inverseSide: "wilder",
     },
-    language: {
-      type: "many-to-many",
-      target: "Language",
-      joinTable: {
-        name: "Wilder_Has_Languages"
-      }
-    }
   },
 });
