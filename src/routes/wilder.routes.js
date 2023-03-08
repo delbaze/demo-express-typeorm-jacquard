@@ -75,9 +75,22 @@ router.patch("/update/:id", async (req, res) => {
     });
   }
 });
-// router
-//   .route("/create")
-//   .post((req, res) => {})
-//   .get((req, res) => {});
+
+router.post("/assignNote", async function (req, res) {
+  const { wilderId, languageId, note } = req.body;
+  try {
+    let result = await new WilderService().assignNote({
+      languageId,
+      wilderId,
+      note,
+    });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      message: err.message,
+    });
+  }
+});
 
 export default router;

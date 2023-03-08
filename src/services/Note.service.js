@@ -6,11 +6,6 @@ export default class NoteService {
     this.db = datasource.getRepository("Note");
   }
 
-  // async createNote({ label }) {
-  //   const note = this.db.create({ label });
-  //   return await this.db.save(note);
-  // }
-
   async list() {
     return await this.db.find();
   }
@@ -21,6 +16,9 @@ export default class NoteService {
       throw new Error("Cette note n'existe pas");
     }
     return note;
+  }
+  async findByRelation({ language, wilder }) {
+    return await this.db.findOneBy({ language, wilder });
   }
 
   async delete(id) {
@@ -33,13 +31,7 @@ export default class NoteService {
       message: "Note supprimée",
     };
   }
-  // async update({ id, ...other }) {
-  //   let note = await this.findById(id);
-  //   Object.keys(other).forEach((value) => {
-  //     if (other[value]) {
-  //       note[value] = other[value];
-  //     }
-  //   });
-  //   return await this.db.save(note);
-  // }
+  async saveNote(data) {
+    return await this.db.save(data);
+  }
 }
