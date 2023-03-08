@@ -11,7 +11,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/wilder", wilderRoutes);
 app.use("/language", languageRoutes);
-// async function start(){
+
 const start = async () => {
   await datasource.initialize();
   app.listen(4000, () => console.log("Serveur démarré sur le port 4000"));
