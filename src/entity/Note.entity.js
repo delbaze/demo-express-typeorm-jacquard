@@ -21,9 +21,9 @@ export default new EntitySchema({
     wilder: {
       target: "Wilder",
       type: "many-to-one",
-      eager: true,
+      eager: true, //peupler/hydrater les données
       joinColumn: true,
-      inverseSide: "notes", //ce côté inverse se retrouve dans l'entité wilder (relations.notes)
+      // inverseSide: "notes", //ce côté inverse se retrouve dans l'entité wilder (relations.notes)
       onDelete: "CASCADE",
     },
   },
