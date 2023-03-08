@@ -8,6 +8,7 @@ export default class WilderService {
 
   async createWilder({ first_name, last_name, email }) {
     const wilder = this.db.create({ first_name, last_name, email });
+
     return await this.db.save(wilder);
   }
 

@@ -12,7 +12,6 @@ export default new EntitySchema({
       type: "text",
     },
     last_name: { type: "text" },
-    age: { type: "int" },
   },
   relations: {
     note: {
