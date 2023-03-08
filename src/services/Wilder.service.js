@@ -1,6 +1,6 @@
 import datasource from "../lib/datasource";
-import LanguageService from "../services/Language.service";
-import NoteService from "../services/Note.service";
+import LanguageService from "./Language.service";
+import NoteService from "./Note.service";
 
 export default class WilderService {
   //le constructeur qui charge db pour chaque instanciation
@@ -47,16 +47,19 @@ export default class WilderService {
   }
 
   async assignNote({ languageId, wilderId, note }) {
+    console.log("TEST", { languageId, wilderId, note });
+
     const language = await new LanguageService().findById(languageId);
-    const wilder = await new WilderService().findById(wilderId);
+    const wilder = await this.findById(wilderId);
     let previousNote = await new NoteService().findByRelation({
       language,
       wilder,
     });
+
     const noteResult = await new NoteService().saveNote({
       ...previousNote,
-      language: languageId,
-      wilder: wilderId,
+      language,
+      wilder,
       note,
     });
     return noteResult;

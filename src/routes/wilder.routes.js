@@ -76,10 +76,11 @@ router.patch("/update/:id", async (req, res) => {
   }
 });
 
-router.post("/assignNote", async function (req, res) {
+router.post("/assignNote", async (req, res) => {
   const { wilderId, languageId, note } = req.body;
   try {
-    let result = await new WilderService().assignNote({
+    //faire l'assignation
+    const result = await new WilderService().assignNote({
       languageId,
       wilderId,
       note,

@@ -1,7 +1,6 @@
 import datasource from "../lib/datasource";
 
 export default class NoteService {
-  //le constructeur qui charge db pour chaque instanciation
   constructor() {
     this.db = datasource.getRepository("Note");
   }
