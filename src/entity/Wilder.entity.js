@@ -15,11 +15,17 @@ export default new EntitySchema({
     age: { type: "int" },
   },
   relations: {
-    //relation inverse permettant ensuite d'obtenir les notes du wilder
-    notes: {
+    score: {
       type: "one-to-many",
-      target: "Note",
+      target: "Score",
       inverseSide: "wilder",
     },
+    language: {
+      type: "many-to-many",
+      target: "Language",
+      joinTable: {
+        name: "Wilder_Has_Languages"
+      }
+    }
   },
 });
