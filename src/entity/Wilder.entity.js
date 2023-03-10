@@ -18,7 +18,6 @@ export default new EntitySchema({
     note: {
       type: "one-to-many",
       target: "Note",
-      // eager: true,
       inverseSide: "wilder",
     },
   },

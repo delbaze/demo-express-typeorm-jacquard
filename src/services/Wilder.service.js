@@ -15,8 +15,14 @@ export default class WilderService {
   }
 
   async list() {
-    return await this.db.find();
-  } 
+    // return await this.db.find();
+
+    return await this.db
+      .createQueryBuilder("wilder")
+      .leftJoinAndSelect("wilder.note", "note")
+      .leftJoinAndSelect("note.language", "language")
+      .getMany();
+  }
 
   async findById(id) {
     let wilder = await this.db.findOneBy({ id });
