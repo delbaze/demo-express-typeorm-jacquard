@@ -16,7 +16,7 @@ export default class WilderService {
 
   async list() {
     return await this.db.find();
-  }
+  } 
 
   async findById(id) {
     let wilder = await this.db.findOneBy({ id });

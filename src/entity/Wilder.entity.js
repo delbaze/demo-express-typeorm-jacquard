@@ -12,11 +12,13 @@ export default new EntitySchema({
       type: "text",
     },
     last_name: { type: "text" },
+    email: { type: "text", unique: true },
   },
   relations: {
     note: {
       type: "one-to-many",
       target: "Note",
+      // eager: true,
       inverseSide: "wilder",
     },
   },

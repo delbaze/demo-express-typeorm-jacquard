@@ -31,6 +31,7 @@ export default class NoteService {
     };
   }
   async saveNote(data) {
+    console.log('SAVE', data);
     return await this.db.save(data);
   }
 }

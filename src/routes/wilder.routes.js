@@ -24,7 +24,7 @@ router.post("/create", async (req, res) => {
 router.get("/list", async (req, res) => {
   try {
     const wilderList = await new WilderService().list();
-    res.json(wilderList);
+      res.json(wilderList);
   } catch (err) {
     res.status(500).json({
       success: false,
