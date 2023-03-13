@@ -7,6 +7,9 @@ import wilderRoutes from "./routes/wilder.routes";
 import languageRoutes from "./routes/language.routes";
 import noteRoutes from "./routes/note.routes";
 import cors from "cors";
+
+import "reflect-metadata"
+
 const app: Express = express();
 const port = process.env.PORT || 4000; //si process.env.PORT est undefined ou null je mets 4000 par défaut
 
