@@ -2,22 +2,7 @@ import express from "express";
 import NoteService from "../services/Note.service";
 const router = express.Router();
 
-router.post("/create", async (req, res) => {
-  // http://localhost/wilder/create
-  const { label } = req.body;
-  try {
-    const note = await new NoteService().createLanguage({
-      label,
-    });
 
-    res.json(note);
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-});
 
 router.get("/list", async (req, res) => {
   try {
@@ -54,22 +39,6 @@ router.delete("/delete/:id", async (req, res) => {
     });
   }
 });
-router.patch("/update/:id", async (req, res) => {
-  const { id } = req.params;
-  const { label } = req.body;
 
-  try {
-    const note = await new NoteService().update({
-      id,
-      label,
-    });
-    res.json(note);
-  } catch (err) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-});
 
 export default router;

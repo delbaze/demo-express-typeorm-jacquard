@@ -46,6 +46,7 @@ router.get("/find/:id", async (req, res) => {
 });
 router.delete("/delete/:id", async (req, res) => {
   const { id } = req.params;
+
   try {
     const result = await new WilderService().delete(id);
     res.json(result);
