@@ -1,10 +1,12 @@
-import express from "express";
+import { IWilderUpdateKey } from "./../services/services.d";
+import express, { Request, Response } from "express";
 import WilderService from "../services/Wilder.service";
+import { IWilderCreate } from "./routes.d";
 const router = express.Router();
 
-router.post("/create", async (req, res) => {
+router.post("/create", async (req: Request, res: Response) => {
   // http://localhost/wilder/create
-  const { first_name, last_name, email } = req.body;
+  const { first_name, last_name, email }: IWilderCreate = req.body;
   try {
     const wilder = await new WilderService().createWilder({
       first_name,
@@ -13,7 +15,7 @@ router.post("/create", async (req, res) => {
     });
 
     res.json(wilder);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       success: false,
       message: err.message,
@@ -21,45 +23,45 @@ router.post("/create", async (req, res) => {
   }
 });
 
-router.get("/list", async (req, res) => {
+router.get("/list", async (req: Request, res: Response) => {
   try {
     const wilderList = await new WilderService().list();
-      res.json(wilderList);
-  } catch (err) {
+    res.json(wilderList);
+  } catch (err: any) {
     res.status(500).json({
       success: false,
       message: err.message,
     });
   }
 });
-router.get("/find/:id", async (req, res) => {
+router.get("/find/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
     const wilder = await new WilderService().findById(id);
     res.json(wilder);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       success: false,
       message: err.message,
     });
   }
 });
-router.delete("/delete/:id", async (req, res) => {
+router.delete("/delete/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
     const result = await new WilderService().delete(id);
     res.json(result);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       success: false,
       message: err.message,
     });
   }
 });
-router.patch("/update/:id", async (req, res) => {
+router.patch("/update/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { first_name, last_name, email } = req.body;
+  const { first_name, last_name, email }: IWilderUpdateKey = req.body;
 
   try {
     const wilder = await new WilderService().update({
@@ -69,7 +71,7 @@ router.patch("/update/:id", async (req, res) => {
       email,
     });
     res.json(wilder);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       success: false,
       message: err.message,
@@ -77,7 +79,7 @@ router.patch("/update/:id", async (req, res) => {
   }
 });
 
-router.post("/assignNote", async (req, res) => {
+router.post("/assignNote", async (req: Request, res: Response) => {
   const { wilderId, languageId, note } = req.body;
   try {
     //faire l'assignation
@@ -87,7 +89,7 @@ router.post("/assignNote", async (req, res) => {
       note,
     });
     res.json(result);
-  } catch (err) {
+  } catch (err: any) {
     res.status(500).json({
       success: false,
       message: err.message,

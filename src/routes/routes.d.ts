@@ -15,3 +15,15 @@ export interface IUpdateLanguage {
   id?: string;
 }
 
+export interface IFindNote {
+  id?: string;
+}
+export interface IDeleteNote {
+  id?: string;
+}
+
+export interface IWilderCreate {
+  first_name: string;
+  last_name: string;
+  email: string;
+}

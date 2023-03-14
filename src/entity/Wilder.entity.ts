@@ -16,5 +16,5 @@ export default class Wilder {
   email: string;
 
   @OneToMany(() => NoteEntity, (note) => note.wilder)
-  notes: NoteEntity[];
+  notes?: NoteEntity[];
 }
