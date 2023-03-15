@@ -3,11 +3,10 @@ import LanguageService from "../services/Language.service";
 import LanguageEntity from "../entity/Language.entity";
 import {
   ILanguageCreate,
-  IFindLanguage,
-  IDeleteLanguage,
-  IUpdateLanguage,
-  ILanguageUpdateData,
+  IParams,
+  ILanguageUpdateData
 } from "./routes.d";
+
 import { IMessageWithSuccess } from "../services/services.d";
 
 const router: Router = express.Router();
@@ -44,7 +43,7 @@ router.get("/list", async (req: Request, res: Response) => {
   }
 });
 router.get("/find/:id", async (req: Request, res: Response) => {
-  const { id }: IFindLanguage = req.params;
+  const { id }: IParams = req.params;
   try {
     const language: LanguageEntity = await new LanguageService().findById(id);
     res.json(language);
@@ -56,7 +55,8 @@ router.get("/find/:id", async (req: Request, res: Response) => {
   }
 });
 router.delete("/delete/:id", async (req: Request, res: Response) => {
-  const { id }: IDeleteLanguage = req.params;
+  const { id }: IParams = req.params;
+  
   try {
     const result: IMessageWithSuccess = await new LanguageService().delete(id);
     res.json(result);
@@ -68,7 +68,7 @@ router.delete("/delete/:id", async (req: Request, res: Response) => {
   }
 });
 router.patch("/update/:id", async (req: Request, res: Response) => {
-  const { id }: IUpdateLanguage = req.params;
+  const { id }: IParams = req.params;
   const { label }: ILanguageUpdateData = req.body;
 
   try {

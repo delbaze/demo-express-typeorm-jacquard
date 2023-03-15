@@ -1,7 +1,7 @@
 import { IWilderUpdateKey } from "./../services/services.d";
 import express, { Request, Response } from "express";
 import WilderService from "../services/Wilder.service";
-import { IWilderCreate } from "./routes.d";
+import { IWilderCreate, IParams } from "./routes.d";
 const router = express.Router();
 
 router.post("/create", async (req: Request, res: Response) => {
@@ -35,7 +35,7 @@ router.get("/list", async (req: Request, res: Response) => {
   }
 });
 router.get("/find/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id }: IParams = req.params;
   try {
     const wilder = await new WilderService().findById(id);
     res.json(wilder);
@@ -47,7 +47,7 @@ router.get("/find/:id", async (req: Request, res: Response) => {
   }
 });
 router.delete("/delete/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
+  const { id }: IParams = req.params;
 
   try {
     const result = await new WilderService().delete(id);

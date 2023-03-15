@@ -1,7 +1,7 @@
 import express, { Request, Response, Router } from "express";
 import NoteService from "../services/Note.service";
 import NoteEntity from "../entity/Note.entity";
-import { IDeleteNote, IFindNote } from "./routes.d";
+import { IParams } from "./routes.d";
 import { IMessageWithSuccess } from "../services/services.d";
 const router: Router = express.Router();
 
@@ -17,7 +17,7 @@ router.get("/list", async (req: Request, res: Response) => {
   }
 });
 router.get("/find/:id", async (req: Request, res: Response) => {
-  const { id }: IFindNote = req.params;
+  const { id }: IParams = req.params;
   try {
     const note: NoteEntity = await new NoteService().findById(id);
     res.json(note);
@@ -29,7 +29,7 @@ router.get("/find/:id", async (req: Request, res: Response) => {
   }
 });
 router.delete("/delete/:id", async (req: Request, res: Response) => {
-  const { id }: IDeleteNote = req.params;
+  const { id }: IParams = req.params;
   try {
     const result: IMessageWithSuccess = await new NoteService().delete(id);
     res.json(result);
