@@ -23,14 +23,22 @@ export default class WilderService {
     first_name,
     last_name,
     email,
+    notes,
   }: IWilderCreate): Promise<WilderEntity> {
     const wilder: WilderEntity = this.db.create({
       first_name,
       last_name,
       email,
     });
-
-    return await this.db.save(wilder);
+    let wilderSaved = await this.db.save(wilder);
+    notes?.forEach(({ language: { id: languageId }, note }) => {
+      this.assignNote({
+        languageId,
+        wilderId: wilderSaved.id,
+        note,
+      });
+    });
+    return wilderSaved;
   }
 
   async list(): Promise<WilderEntity[]> {
@@ -42,7 +50,13 @@ export default class WilderService {
   }
 
   async findById(id: string): Promise<IWilderUpdateKey> {
-    let wilder: WilderEntity | null = await this.db.findOneBy({ id });
+    // let wilder: WilderEntity | null = await this.db.findOneBy({ id });
+    let wilder = await this.db
+      .createQueryBuilder("wilder")
+      .leftJoinAndSelect("wilder.notes", "note")
+      .leftJoinAndSelect("note.language", "language")
+      .where("wilder.id = :id", { id })
+      .getOne();
     if (!wilder) {
       throw new Error("Ce wilder n'existe pas");
     }
@@ -59,12 +73,19 @@ export default class WilderService {
       message: "Wilder supprimé",
     };
   }
-  async update({ id, ...other }: IWilderUpdateKey) {
+  async update({ id, notes, ...other }: IWilderUpdateKey) {
     let wilder: IWilderUpdateKey = await this.findById(id);
     Object.keys(other).forEach((value) => {
       if (other[value]) {
         wilder[value] = other[value];
       }
+    });
+    notes?.forEach(({ language: { id: languageId }, note }) => {
+      this.assignNote({
+        languageId,
+        wilderId: wilder.id,
+        note,
+      });
     });
     return await this.db.save(wilder);
   }

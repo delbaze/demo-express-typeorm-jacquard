@@ -6,12 +6,14 @@ const router = express.Router();
 
 router.post("/create", async (req: Request, res: Response) => {
   // http://localhost/wilder/create
-  const { first_name, last_name, email }: IWilderCreate = req.body;
+  console.log(req.body);
+  const { first_name, last_name, email, notes }: IWilderCreate = req.body;
   try {
     const wilder = await new WilderService().createWilder({
       first_name,
       last_name,
       email,
+      notes,
     });
 
     res.json(wilder);
@@ -61,11 +63,12 @@ router.delete("/delete/:id", async (req: Request, res: Response) => {
 });
 router.patch("/update/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { first_name, last_name, email }: IWilderUpdateKey = req.body;
+  const { first_name, last_name, email, notes }: IWilderUpdateKey = req.body;
 
   try {
     const wilder = await new WilderService().update({
       id,
+      notes, 
       first_name,
       last_name,
       email,
