@@ -2,28 +2,52 @@ import { IWilderUpdateKey } from "./../services/services.d";
 import express, { Request, Response } from "express";
 import WilderService from "../services/Wilder.service";
 import { IWilderCreate, IParams } from "./routes.d";
+import multer from "multer";
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    console.log("DEST", file);
+    cb(null, "./tmp");
+  },
+  filename: function (req, file, cb) {
+    console.log("FILE0", file);
+    const uniqueSuffix =
+      Date.now() + "-" + Math.round(Math.random() * 1e9) + ".png";
+    cb(null, file.fieldname + "-" + uniqueSuffix);
+  },
+});
+
+const upload = multer({ storage: storage });
+
 const router = express.Router();
 
-router.post("/create", async (req: Request, res: Response) => {
-  // http://localhost/wilder/create
-  console.log(req.body);
-  const { first_name, last_name, email, notes }: IWilderCreate = req.body;
-  try {
-    const wilder = await new WilderService().createWilder({
-      first_name,
-      last_name,
-      email,
-      notes,
-    });
+router.post(
+  "/create",
+  upload.single("avatar"),
+  async (req: Request, res: Response) => {
+    // http://localhost/wilder/create
+    console.log(req.body);
 
-    res.json(wilder);
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+    console.log("FILE DEPUIS LA ROUTE", req.file);
+
+    const { first_name, last_name, email, notes }: IWilderCreate = req.body;
+    try {
+      const wilder = await new WilderService().createWilder({
+        first_name,
+        last_name,
+        email,
+        notes: JSON.parse(`${notes}`),
+      });
+
+      res.json(wilder);
+    } catch (err: any) {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
   }
-});
+);
 
 router.get("/list", async (req: Request, res: Response) => {
   try {
@@ -68,7 +92,7 @@ router.patch("/update/:id", async (req: Request, res: Response) => {
   try {
     const wilder = await new WilderService().update({
       id,
-      notes, 
+      notes,
       first_name,
       last_name,
       email,

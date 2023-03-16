@@ -1,6 +1,6 @@
 import { DeleteResult, Repository } from "typeorm";
 import datasource from "../lib/datasource";
-import { IWilderCreate } from "../routes/routes.d";
+import { IWilderCreate, IWilderCreateService } from "../routes/routes.d";
 import LanguageService from "./Language.service";
 import NoteService from "./Note.service";
 import WilderEntity from "../entity/Wilder.entity";
@@ -24,7 +24,13 @@ export default class WilderService {
     last_name,
     email,
     notes,
-  }: IWilderCreate): Promise<WilderEntity> {
+  }: IWilderCreateService): Promise<WilderEntity> {
+    console.log("TOP", {
+      first_name,
+      last_name,
+      email,
+      notes,
+    });
     const wilder: WilderEntity = this.db.create({
       first_name,
       last_name,
@@ -57,6 +63,7 @@ export default class WilderService {
       .leftJoinAndSelect("note.language", "language")
       .where("wilder.id = :id", { id })
       .getOne();
+
     if (!wilder) {
       throw new Error("Ce wilder n'existe pas");
     }

@@ -3,3 +3,4 @@ package-lock.json
 wildersdb.sqlite
 .env
 /build
+/tmp/*

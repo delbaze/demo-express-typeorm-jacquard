@@ -16,5 +16,9 @@ export interface IWilderCreate {
   first_name: string;
   last_name: string;
   email: string;
+  // notes?: NoteEntity[]
+  notes?: string | undefined
+}
+export interface IWilderCreateService extends IWilderCreate {
   notes?: NoteEntity[]
 }
