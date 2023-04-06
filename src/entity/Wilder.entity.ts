@@ -15,6 +15,9 @@ export default class Wilder {
   @Column({ unique: true }) //autre manière d'écrire le unique plutot que le décorateur @Unique
   email: string;
 
+  @Column({nullable: true})
+  avatar?: string;
+
   @OneToMany(() => NoteEntity, (note) => note.wilder)
   notes?: NoteEntity[];
 }

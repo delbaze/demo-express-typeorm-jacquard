@@ -11,6 +11,7 @@ import {
   IWilderUpdateKey,
 } from "./services.d";
 import NoteEntity from "../entity/Note.entity";
+import { removeAvatar } from "../lib/utilities";
 
 export default class WilderService {
   db: Repository<WilderEntity>;
@@ -24,17 +25,13 @@ export default class WilderService {
     last_name,
     email,
     notes,
+    avatar,
   }: IWilderCreateService): Promise<WilderEntity> {
-    console.log("TOP", {
-      first_name,
-      last_name,
-      email,
-      notes,
-    });
     const wilder: WilderEntity = this.db.create({
       first_name,
       last_name,
       email,
+      avatar,
     });
     let wilderSaved = await this.db.save(wilder);
     notes?.forEach(({ language: { id: languageId }, note }) => {
@@ -71,6 +68,10 @@ export default class WilderService {
   }
 
   async delete(id: string): Promise<IMessageWithSuccess> {
+    let wilder: IWilderUpdateKey = await this.findById(id);
+    if (wilder.avatar) {
+      removeAvatar(wilder.avatar);
+    }
     let result: DeleteResult = await this.db.delete({ id });
     if (result.affected === 0) {
       throw new Error("Problème, ce wilder n'existe peut être pas?");
@@ -82,11 +83,16 @@ export default class WilderService {
   }
   async update({ id, notes, ...other }: IWilderUpdateKey) {
     let wilder: IWilderUpdateKey = await this.findById(id);
+      if( wilder.avatar !== other.avatar){
+        
+      }
     Object.keys(other).forEach((value) => {
       if (other[value]) {
         wilder[value] = other[value];
       }
     });
+   
+    console.log("WILDER", wilder);
     notes?.forEach(({ language: { id: languageId }, note }) => {
       this.assignNote({
         languageId,

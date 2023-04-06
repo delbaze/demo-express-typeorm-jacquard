@@ -3,6 +3,7 @@ import express, { Request, Response } from "express";
 import WilderService from "../services/Wilder.service";
 import { IWilderCreate, IParams } from "./routes.d";
 import multer from "multer";
+import { moveFile } from "../lib/utilities";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -26,9 +27,8 @@ router.post(
   upload.single("avatar"),
   async (req: Request, res: Response) => {
     // http://localhost/wilder/create
-    console.log(req.body);
 
-    console.log("FILE DEPUIS LA ROUTE", req.file);
+    let file: Express.Multer.File | undefined = req.file;
 
     const { first_name, last_name, email, notes }: IWilderCreate = req.body;
     try {
@@ -37,8 +37,13 @@ router.post(
         last_name,
         email,
         notes: JSON.parse(`${notes}`),
+        avatar: file?.filename,
       });
 
+      if (file) {
+        moveFile(file.path, file.filename);
+      }
+      //penser à déplacer le fichier après sauvegarde du wilder
       res.json(wilder);
     } catch (err: any) {
       res.status(500).json({
@@ -85,26 +90,36 @@ router.delete("/delete/:id", async (req: Request, res: Response) => {
     });
   }
 });
-router.patch("/update/:id", async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { first_name, last_name, email, notes }: IWilderUpdateKey = req.body;
+router.patch(
+  "/update/:id",
+  upload.single("avatar"),
+  async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { first_name, last_name, email, notes }: IWilderUpdateKey = req.body;
+    let file: Express.Multer.File | undefined = req.file;
+    try {
+      const wilder = await new WilderService().update({
+        id,
+        notes,
+        first_name,
+        last_name,
+        email,
+        avatar: file?.filename,
+      });
+      console.log("FILE", file);
+      if (file) {
+        moveFile(file.path, file.filename);
+      }
 
-  try {
-    const wilder = await new WilderService().update({
-      id,
-      notes,
-      first_name,
-      last_name,
-      email,
-    });
-    res.json(wilder);
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
+      res.json(wilder);
+    } catch (err: any) {
+      res.status(500).json({
+        success: false,
+        message: err.message,
+      });
+    }
   }
-});
+);
 
 router.post("/assignNote", async (req: Request, res: Response) => {
   const { wilderId, languageId, note } = req.body;
