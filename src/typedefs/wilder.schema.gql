@@ -1,0 +1,8 @@
+type Wilder {
+  id: ID
+  first_name: String
+}
+
+type Query {
+  wilders: [Wilder]
+}
