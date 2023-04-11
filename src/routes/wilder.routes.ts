@@ -54,42 +54,42 @@ router.post(
   }
 );
 
-router.get("/list", async (req: Request, res: Response) => {
-  try {
-    const wilderList = await new WilderService().list();
-    res.json(wilderList);
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-});
-router.get("/find/:id", async (req: Request, res: Response) => {
-  const { id }: IParams = req.params;
-  try {
-    const wilder = await new WilderService().findById(id);
-    res.json(wilder);
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-});
-router.delete("/delete/:id", async (req: Request, res: Response) => {
-  const { id }: IParams = req.params;
+// router.get("/list", async (req: Request, res: Response) => {
+//   try {
+//     const wilderList = await new WilderService().list();
+//     res.json(wilderList);
+//   } catch (err: any) {
+//     res.status(500).json({
+//       success: false,
+//       message: err.message,
+//     });
+//   }
+// });
+// router.get("/find/:id", async (req: Request, res: Response) => {
+//   const { id }: IParams = req.params;
+//   try {
+//     const wilder = await new WilderService().findById(id);
+//     res.json(wilder);
+//   } catch (err: any) {
+//     res.status(500).json({
+//       success: false,
+//       message: err.message,
+//     });
+//   }
+// });
+// router.delete("/delete/:id", async (req: Request, res: Response) => {
+//   const { id }: IParams = req.params;
 
-  try {
-    const result = await new WilderService().delete(id);
-    res.json(result);
-  } catch (err: any) {
-    res.status(500).json({
-      success: false,
-      message: err.message,
-    });
-  }
-});
+//   try {
+//     const result = await new WilderService().delete(id);
+//     res.json(result);
+//   } catch (err: any) {
+//     res.status(500).json({
+//       success: false,
+//       message: err.message,
+//     });
+//   }
+// });
 router.patch(
   "/update/:id",
   upload.single("avatar"),
