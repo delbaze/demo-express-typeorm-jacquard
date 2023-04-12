@@ -14,9 +14,7 @@ import path from "node:path";
 
 import { buildSchema } from "type-graphql";
 import "reflect-metadata";
-
-import typeDefs from "./typedefs";
-import resolvers from "./resolvers";
+;
 import WilderResolver from "./resolvers/wilder.resolver";
 import LanguageResolver from "./resolvers/language.resolver";
 const app: Express = express();
