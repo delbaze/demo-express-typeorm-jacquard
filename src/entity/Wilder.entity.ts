@@ -1,4 +1,3 @@
-import { IMessageWithSuccess } from "./../services/services.d";
 import { Field, InputType, ObjectType } from "type-graphql";
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import Note, { NoteInput } from "./Note.entity";
@@ -79,4 +78,16 @@ export class UpdateWilder {
 
   @Field(() => [NoteInput], { defaultValue: [] })
   notes: Note[];
+}
+
+@InputType()
+export class AssignNoteInput {
+  @Field()
+  note: number
+
+  @Field()
+  wilderId: string
+  
+  @Field()
+  languageId: string
 }

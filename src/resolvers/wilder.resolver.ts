@@ -1,5 +1,7 @@
 import { Arg, Mutation, Query } from "type-graphql";
+import Note from "../entity/Note.entity";
 import Wilder, {
+  AssignNoteInput,
   MessageWithSuccess,
   UpdateWilder,
   WilderInput,
@@ -58,5 +60,17 @@ export default class WilderResolver {
       avatar,
     });
     return wilder;
+  }
+
+  @Mutation(() => [Note])
+  async assignNote(@Arg("data") data: AssignNoteInput): Promise<Note[]> {
+    const { languageId, wilderId, note } = data;
+    const result = await new WilderService().assignNote({
+      languageId,
+      wilderId,
+      note,
+    });
+
+    return result;
   }
 }

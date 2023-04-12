@@ -25,3 +25,12 @@ export class LanguageCreate {
   @Field()
   label: string;
 }
+
+@InputType()
+export class LanguageUpdate {
+  @Field()
+  id: string;
+  
+  @Field()
+  label: string;
+}
