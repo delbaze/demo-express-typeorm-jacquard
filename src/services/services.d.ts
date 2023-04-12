@@ -32,6 +32,6 @@ export interface IWilderCreateService {
   first_name: string
   last_name: string
   email: string
-  notes: NoteEntity[]
+  notes: NotesEntity[]
   avatar?: string
 }
