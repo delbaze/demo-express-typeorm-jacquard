@@ -17,7 +17,8 @@ import "reflect-metadata";
 
 import typeDefs from "./typedefs";
 import resolvers from "./resolvers";
-import BookResolver from "./resolvers/book.resolver";
+import WilderResolver from "./resolvers/wilder.resolver";
+import LanguageResolver from "./resolvers/language.resolver";
 const app: Express = express();
 const port = process.env.PORT || 4001; //si process.env.PORT est undefined ou null je mets 4001 par défaut
 
@@ -34,7 +35,7 @@ app.use("/note", noteRoutes);
 const start = async () => {
   await datasource.initialize();
   const schema = await buildSchema({
-    resolvers: [BookResolver],
+    resolvers: [ WilderResolver, LanguageResolver],
     validate: false //désactive partout le class-validator dans type-graphql, vous pouvez l'activer si besoin au cas par cas dans les options des arguments par exemple
   });
   

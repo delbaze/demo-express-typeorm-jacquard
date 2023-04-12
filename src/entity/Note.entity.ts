@@ -1,3 +1,4 @@
+import { Field, InputType, ObjectType } from "type-graphql";
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -5,21 +6,38 @@ import {
   ManyToOne,
   JoinColumn,
 } from "typeorm";
-import LanguageEntity from "./Language.entity";
-import WilderEntity from "./Wilder.entity";
+import Language, { LanguageInput } from "./Language.entity";
+import Wilder from "./Wilder.entity";
 
+@ObjectType()
 @Entity("note")
 export default class Note {
+  @Field()
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
+  @Field()
   @Column()
   note: number;
 
-  @ManyToOne(() => LanguageEntity, { eager: true, onDelete: "CASCADE" })
-  language: LanguageEntity;
+  @Field(() => Language)
+  @ManyToOne(() => Language, { eager: true, onDelete: "CASCADE" })
+  language: Language;
 
-  @ManyToOne(() => WilderEntity, { eager: true, onDelete: "CASCADE" })
+  @Field(() => Wilder)
+  @ManyToOne(() => Wilder, { eager: true, onDelete: "CASCADE" })
   @JoinColumn()
-  wilder: WilderEntity;
+  wilder: Wilder;
+}
+
+@InputType()
+export class NoteInput {
+  @Field({ nullable: true })
+  id?: string;
+
+  @Field()
+  note: number;
+
+  @Field()
+  language: LanguageInput;
 }
