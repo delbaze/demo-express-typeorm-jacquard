@@ -27,3 +27,11 @@ export interface IAssignNote {
   wilderId: string;
   note: number;
 }
+
+export interface IWilderCreateService {
+  first_name: string
+  last_name: string
+  email: string
+  notes: NoteEntity[]
+  avatar?: string
+}
