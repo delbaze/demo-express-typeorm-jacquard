@@ -1,7 +1,6 @@
 import { DeleteResult, Repository } from "typeorm";
 import datasource from "../lib/datasource";
 import LanguageEntity from "../entity/Language.entity";
-import { ILanguageCreate } from "../routes/routes.d";
 import {
   IMessageWithSuccess,
   ILanguageUpdateKey,
@@ -13,7 +12,7 @@ export default class LanguageService {
     this.db = datasource.getRepository("Language");
   }
 
-  async createLanguage({ label }: ILanguageCreate): Promise<LanguageEntity> {
+  async createLanguage({ label }: any): Promise<LanguageEntity> {
     const language: LanguageEntity = this.db.create({ label });
     return await this.db.save(language);
   }

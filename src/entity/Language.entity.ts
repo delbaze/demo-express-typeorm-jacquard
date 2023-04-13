@@ -18,6 +18,9 @@ export default class Language {
 export class LanguageInput {
   @Field()
   id: string;
+  
+  @Field({nullable: true})
+  label?: string;
 }
 
 @InputType()
