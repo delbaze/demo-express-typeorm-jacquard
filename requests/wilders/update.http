@@ -1,0 +1,6 @@
+PATCH /wilder/update/1 HTTP/1.1
+Host: localhost:4000
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 34
+
+first_name=Robert&last_name=Dupont
